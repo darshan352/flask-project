@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Products - E-Shop{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <h1 class="page-title">All Products</h1>
+
+    <div class="search-container">
+        <input id="box" type="text" class="search-input" placeholder="Search grocery products...">
+        <div id="list" class="search-results"></div>
+    </div>
+
+    <div class="product-grid">
+        {% for p in products %}
+        <div class="product-card" onclick="window.location='/user/product-fullscreen/{{p[0]}}'" style="cursor: pointer;">
+            <div class="product-image-wrapper">
+                <img src="{{ url_for('static', filename='uploads/'+ p[5] ) }}" alt="{{ p[1] }}">
+            </div>
+            <div class="product-info">
+                <h3 class="product-title">{{ p[1] }}</h3>
+                <div class="product-price">₹{{ p[2] }}</div>
+                <div class="product-stock">Stock: {{ p[3] }} available</div>
+                <div class="product-desc">{{ p[4] }}</div>
+                <div class="product-actions">
+                    <a href="/user/add_to_cart/{{ p[0] }}" class="btn btn-primary" style="font-size: 0.9rem; padding: 8px;" onclick="event.stopPropagation();">🛒 Add to Cart</a>
+                    <a href="/user/buy_product/{{ p[0] }}" class="btn btn-success" style="font-size: 0.9rem; padding: 8px;" onclick="event.stopPropagation();">⚡ Buy Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const box = document.getElementById("box");
+    const list = document.getElementById("list");
+
+    box.oninput = function () {
+        let q = box.value.trim();
+
+        if (!q) {
+            list.innerHTML = "";
+            return;
+        }
+
+        fetch("/search?q=" + q)
+            .then(r => r.json())
+            .then(d => {
+                list.innerHTML = d.map(item => `
+                    <div class="search-item">
+                        <a href="/user/product-fullscreen/${item.id}">${item.name}</a>
+                    </div>
+                `).join("");
+            });
+    };
+
+    // Close on click outside
+    document.addEventListener("click", function(event) {
+        if (!box.contains(event.target) && !list.contains(event.target)) {
+            list.innerHTML = "";
+        }
+    });
+
+</script>
+{% endblock %}

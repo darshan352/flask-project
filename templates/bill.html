@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Invoice #{{ bill[0] }} - E-Shop{% endblock %}
+
+{% block head %}
+<style>
+    .premium-table th, .premium-table td {
+        white-space: normal;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="center-container" style="align-items: flex-start; padding-top: 2rem;">
+    <div class="glass-card" style="max-width: 700px; width: 100%;">
+        <div style="text-align: center; margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 1rem;">
+            <h1 style="color: var(--success-color); font-size: 2.5rem; margin-bottom: 0;">Order Confirmed! 🎉</h1>
+            <p style="color: var(--text-muted);">Thank you for shopping with {{ shop_name }}</p>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 1.5rem;">
+            <div style="text-align: left;">
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Invoice ID</p>
+                <strong style="font-size: 1.2rem;">#{{ bill[0] }}</strong><br><br>
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Date & Time</p>
+                <strong>{{ formatted_date }}</strong>
+            </div>
+            <div style="text-align: right;">
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.9rem;">Billed To</p>
+                <strong style="font-size: 1.1rem;">{{ bill[1] }}</strong><br>
+                <div style="display: inline-block; margin-top: 1rem; padding: 6px 12px; background: rgba(99, 102, 241, 0.1); color: var(--primary-color); border-radius: 6px; font-weight: bold; font-size: 1rem;">
+                    Payment: {{ payment_method }}
+                </div>
+            </div>
+        </div>
+
+        <table class="premium-table" style="background: transparent; box-shadow: none; border-bottom: 2px solid rgba(0,0,0,0.05); margin-bottom: 1.5rem; min-width: 100%;">
+            <thead>
+                <tr>
+                    <th style="background: rgba(0,0,0,0.02); text-align: left; border-radius: 8px 0 0 8px;">Item</th>
+                    <th style="background: rgba(0,0,0,0.02); text-align: center;">Qty</th>
+                    <th style="background: rgba(0,0,0,0.02); text-align: right; border-radius: 0 8px 8px 0;">Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td style="text-align: left; padding: 12px 15px;">{{ item[0] }}</td>
+                    <td style="text-align: center; padding: 12px 15px;">{{ item[1] }}</td>
+                    <td style="text-align: right; padding: 12px 15px; font-weight: bold;">₹{{ item[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div style="text-align: right; margin-top: 1rem; font-size: 1.5rem; font-weight: 800; color: var(--secondary-color);">
+            <span style="font-size: 1.2rem; margin-right: 1rem;">Grand Total:</span> <span style="display: inline-block; min-width: 120px; text-align: right; color: var(--success-color);">₹{{ bill[3] }}</span>
+        </div>
+
+        <div class="no-print" style="margin-top: 3rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+            <button onclick="window.print()" class="btn btn-primary" style="font-size: 1.1rem; padding: 12px 30px;">🖨️ Print Invoice</button>
+            <a href="/user/products" class="btn btn-outline-nav" style="font-size: 1.1rem; padding: 12px 30px;">Continue Shopping</a>
+            <a href="/user/orders" class="btn btn-outline-nav" style="font-size: 1.1rem; padding: 12px 30px;">View My Orders</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

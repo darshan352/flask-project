@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ shop_name }}{% endblock %}</title>
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header class="navbar-container">
+        <nav class="navbar">
+            <a href="/" class="logo">
+                <span class="logo-icon">🛍️</span> {{ shop_name }}
+            </a>
+            
+            <input type="checkbox" id="menu-toggle">
+            <label for="menu-toggle" class="menu-icon">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </label>
+
+            <div class="nav-links">
+                {% if session.get('email') %}
+                    <a href="/home" class="btn btn-outline-nav" style="padding: 6px 15px;">Home</a>
+                    <a href="/user/products" class="btn btn-outline-nav" style="padding: 6px 15px;">Our Products</a>
+                    <a href="/user/cart" class="cart-link btn btn-outline-nav" style="padding: 6px 15px;">Cart</a>
+                    <a href="/user/orders" class="btn btn-outline-nav" style="padding: 6px 15px;">Orders</a>
+                    <a href="/user" class="btn btn-outline-nav" style="padding: 6px 15px;">Profile</a>
+                    <a href="/user/logout" class="btn btn-outline-nav" style="padding: 6px 15px;">Logout</a>
+                {% else %}
+                    <a href="/" class="btn btn-outline-nav" style="padding: 6px 15px;">Home</a>
+                    <a href="/login" class="btn btn-outline-nav" style="padding: 6px 15px;">Login</a>
+                    <a href="/signup" class="btn btn-outline-nav" style="padding: 6px 15px;">Sign Up</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer class="footer">
+        <p>&copy; 2026 {{ shop_name }}. All Rights Reserved.</p>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+    <script>
+        // Highlighting active nav link based on current path
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentPath = window.location.pathname;
+            document.querySelectorAll(".nav-links a").forEach(link => {
+                link.classList.remove("active");
+                const href = link.getAttribute("href");
+                if (href === currentPath) {
+                    link.classList.add("active");
+                } else if (href !== "/" && currentPath.startsWith(href)) {
+                    // special check for active highlighting logic
+                    if(!href.includes('logout')){
+                        link.classList.add("active");
+                    }
+                }
+            });
+            if(currentPath === "/") {
+                const homeLink = document.querySelector('.nav-links a[href="/"]');
+                if(homeLink) homeLink.classList.add("active");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - E-Shop{% endblock %}
+
+{% block content %}
+<div class="center-container">
+    <div class="glass-card" style="max-width: 600px; text-align: center;">
+        <h2>Welcome, {{ data[2] }} 👋</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">You are securely logged in to your account.</p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+            <a href="/user/products" class="btn btn-primary" style="width: 100%;">View Products</a>
+            <a href="/user/cart" class="btn btn-outline-nav" style="width: 100%;">My Cart</a>
+            <a href="/user/orders" class="btn btn-outline-nav" style="width: 100%;">Order History</a>
+            <a href="{{url_for('update')}}" class="btn btn-outline-nav" style="width: 100%;">Update Profile</a>
+        </div>
+        
+        <form action="/user/delete_profile" method="post" onsubmit="return confirm('WARNING: Are you sure you want to delete your account? This action cannot be undone.');">
+            <button type="submit" class="btn btn-danger btn-block">Delete Profile</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

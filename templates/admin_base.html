@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Panel{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body class="admin-body">
+    <header class="navbar-container admin-navbar-container">
+        <nav class="navbar admin-navbar">
+            <a href="/admin/panel" class="logo">
+                <span class="logo-icon">👑</span> {{ shop_name }} Admin
+            </a>
+            
+            <input type="checkbox" id="menu-toggle">
+            <label for="menu-toggle" class="menu-icon">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </label>
+
+            <div class="nav-links">
+                <a href="/admin/panel" class="btn btn-outline-nav" style="padding: 6px 15px;">Dashboard</a>
+                <a href="/admin/add_product" class="btn btn-outline-nav" style="padding: 6px 15px;">Add Product</a>
+                <a href="/admin/view_products_admin" class="btn btn-outline-nav" style="padding: 6px 15px;">View Products</a>
+                <a href="/admin/view_orders" class="btn btn-outline-nav" style="padding: 6px 15px;">View Orders</a>
+                <a href="/admin/view_users" class="btn btn-outline-nav" style="padding: 6px 15px;">Manage Users</a>
+                <a href="/admin/view_admins" class="btn btn-outline-nav" style="padding: 6px 15px;">Manage Admins</a>
+                <!-- We don't have a clear `/admin/logout` in main.py, I'll redirect to /admin -->
+                <a href="/admin" class="btn btn-outline-nav" style="padding: 6px 15px;">Exit</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content admin-main">
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer class="footer">
+        <p>&copy; 2026 {{ shop_name }} Admin Panel.</p>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentPath = window.location.pathname;
+            document.querySelectorAll(".nav-links a").forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href") === currentPath) {
+                    link.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{% extends 'admin_base.html' %}
+{% block title %}Manage Orders - Admin{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 class="page-title" style="margin: 0; font-size: 2.5rem; text-align: left;">Manage Orders</h1>
+    </div>
+
+    <div class="table-wrapper">
+        <table class="premium-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                    <th>Margin</th>
+                    <th>Date</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td><strong>#{{ order[0] }}</strong></td>
+                    <td>{{ order[1] }}</td>
+                    <td>{{ order[2] }}</td>
+                    <td>{{ order[3] }}</td>
+                    <td>{{ order[4] }}</td>
+                    <td style="color: var(--success-color); font-weight: bold;">₹{{ order[5] }}</td>
+                    <td style="color: var(--success-hover); font-weight: bold;">₹{{ order[9] }}</td>
+                    <td><small style="color: var(--text-muted);">{{ order[6] }}</small></td>
+                    <td>
+                        {% if order[8] == 'COD' or order[8] == 'cod' %}
+                        <span style="color: var(--secondary-color); font-weight: bold;">COD</span>
+                        {% else %}
+                        <span style="color: var(--success-color); font-weight: bold;">Paid</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if 'Cancelled' in order[7] %}
+                        <span style="color: var(--danger-color); font-weight: bold;">{{ order[7] }}</span>
+                        {% else %}
+                        <span style="color: var(--text-main);">{{ order[7] }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if 'Cancelled' not in order[7] %}
+                        <a href="/admin/cancel_order/{{ order[0] }}" class="btn btn-black" style="padding: 6px 12px; font-size: 0.85rem;" onclick="return confirm('Are you sure you want to cancel this order?');">Cancel</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Settings - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="center-container">
+    <div class="glass-card" style="max-width: 500px;">
+        <h2>Shop Settings ⚙️</h2>
+        
+        <form action="/admin/settings" method="post" style="margin-top: 2rem;">
+            <div class="form-group">
+                <label>Global Shop Name</label>
+                <input type="text" name="shop_name" class="form-control" value="{{ current_name }}" required>
+                <small style="color: var(--text-muted); margin-top: 0.5rem; display: block;">This will update the brand name shown in the navigation bars across the entire site.</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">Save Settings</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

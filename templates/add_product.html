@@ -1,0 +1,45 @@
+{% extends 'admin_base.html' %}
+
+{% block title %}Add Product - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="center-container">
+    <div class="glass-card" style="max-width: 600px;">
+        <h2>Add New Product ➕</h2>
+        
+        <form action="/admin/add_product" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Product Name</label>
+                <input type="text" name="p_name" class="form-control" placeholder="Enter Product Name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Price (₹)</label>
+                <input type="number" name="price" class="form-control" placeholder="0.00" required>
+            </div>
+
+            <div class="form-group">
+                <label>Purchasing Price (Cost ₹)</label>
+                <input type="number" name="purchasing_price" class="form-control" placeholder="0.00" required>
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="desc" class="form-control" placeholder="Product Description..." required style="min-height: 80px; resize: vertical;"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Initial Stock Count</label>
+                <input type="number" name="stock" class="form-control" placeholder="0" required>
+            </div>
+
+            <div class="form-group">
+                <label>Product Image</label>
+                <input type="file" name="image" class="form-control" required style="padding: 10px;">
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block" style="margin-top: 2rem;">Upload Product</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

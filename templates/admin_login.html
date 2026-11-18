@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Login - E-Shop{% endblock %}
+
+{% block head %}
+<style>
+    .nav-links, .menu-icon {
+        display: none !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="center-container">
+    <div class="glass-card">
+        <h2>Admin Authentication 🔐</h2>
+        
+        <form action="/admin" method="post">
+            <div class="form-group">
+                <label>Admin Username</label>
+                <input type="text" name="admin_name" class="form-control" placeholder="Enter name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" style="background: var(--gradient-admin);">Secure Login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}My Orders - E-Shop{% endblock %}
+
+{% block content %}
+<div class="fade-in">
+    <h1 class="page-title">Order History</h1>
+
+    {% if orders %}
+    <div class="table-wrapper">
+        <table class="premium-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total Ordered</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for o in orders %}
+                <tr>
+                    <td><strong>#{{ o[0] }}</strong></td>
+                    <td>{{ o[1] }}</td>
+                    <td>₹{{ o[2] }}</td>
+                    <td>{{ o[3] }}</td>
+                    <td style="color: var(--success-color); font-weight: bold;">₹{{ o[5] }}</td>
+                    <td><small style="color: var(--text-muted);">{{ o[4] }}</small></td>
+                    <td>
+                        {% if 'Cancelled' in o[6] %}
+                        <span style="color: var(--danger-color); font-weight: bold;">{{ o[6] }}</span>
+                        {% else %}
+                        <span style="color: var(--text-main);">{{ o[6] }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if 'Cancelled' not in o[6] %}
+                        <a href="/user/cancel_order/{{ o[0] }}" class="btn btn-black" style="padding: 6px 12px; font-size: 0.85rem;" onclick="return confirm('Are you sure you want to cancel this order?');">Cancel</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="center-container" style="min-height: 40vh; flex-direction: column;">
+        <h2 style="color: var(--text-muted); margin-bottom: 2rem;">You have not placed any orders yet.</h2>
+        <a href="/user/products" class="btn btn-primary">Start Shopping</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
